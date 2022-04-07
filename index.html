@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Library</title>
+</head>
+
+<body>
+    <form id='bookForm'>
+        <input id="title" type="text" placeholder="Enter book title">
+        <input id="author" type="text" placeholder="Enter book author">
+        <input id="pages" type="text" placeholder="Enter number of pages">
+        <input id="read" type="text" placeholder="Have you read the book? Y/N">
+        <input type="button" onclick="addBookToLibrary()" value="submit">
+
+    </form>
+<p id="bookDisplay"></p>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>
