@@ -11,14 +11,17 @@
 
 <body>
     <form id='bookForm'>
-        <input id="title" type="text" placeholder="Enter book title">
-        <input id="author" type="text" placeholder="Enter book author">
-        <input id="pages" type="text" placeholder="Enter number of pages">
-        <input id="read" type="text" placeholder="Have you read the book? Y/N">
-        <input type="button" onclick="addBookToLibrary()" value="submit">
-
+        <fieldset>
+            <input id="title" type="text" placeholder="Enter book title">
+            <input id="author" type="text" placeholder="Enter book author">
+            <input id="pages" type="text" placeholder="Enter number of pages">
+            <input id="read" type="text" placeholder="Have you read the book? Y/N">
+            <button type="button" id="submitBtn">Add book</button>
+        </fieldset>
     </form>
-<p id="bookDisplay"></p>
+    <div class="container" id="container">
+        <!-- <div class="bookCard">The Hobbit</div> -->
+    </div>
 
     <script src="scripts.js"></script>
 </body>
