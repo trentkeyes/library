@@ -1,3 +1,27 @@
+let myLibrary = [];
+let bookID = 0;
+
+const submitBtn = document.querySelector("#submitBtn");
+const addBtn = document.querySelector('#addBtn');
+const formContainer = document.querySelector('#formContainer');
+const bookForm = document.querySelector('#bookForm');
+const bookContainer = document.querySelector("#bookContainer");
+
+
+submitBtn.addEventListener('click', (e) => {
+    addBookToLibrary();
+});
+
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        addBookToLibrary();
+    }
+});
+
+addBtn.addEventListener('click', (e) => {
+    showForm();
+});
+
 function Book(id, title, author, pages, read) {
     this.id = id;
     this.title = title;
@@ -17,13 +41,9 @@ function Book(id, title, author, pages, read) {
     }
 }
 
-let myLibrary = [];
-let bookID = 0;
-const submitBtn = document.querySelector("#submitBtn");
-const container = document.querySelector("#container");
-submitBtn.addEventListener('click', (e) => {
-    addBookToLibrary();
-});
+function showForm() {
+    formContainer.appendChild(bookForm);
+}
 
 function addBookToLibrary() {
     const inputsArr = Array.from(document.querySelectorAll('#bookForm')[0]);
@@ -35,13 +55,24 @@ function addBookToLibrary() {
     const userBook = new Book(id, title, author, pages, read);
     myLibrary.push(userBook);
     bookID++;
-    console.log(inputsArr);
-    console.log(myLibrary);
     const bookCard = document.createElement('div');
     bookCard.setAttribute("class", "bookCard");
-    container.appendChild(bookCard);
+    bookContainer.appendChild(bookCard);
     bookCard.textContent = userBook.info();
+    bookForm.reset();
+    bookContainer.removeChild(bookForm);
 }
+
+
+
+
+
+
+function removeBookFromLibrary() {
+    //  e.parentElement.removeChild(e);
+}
+
+
 
 
 

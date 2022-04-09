@@ -1,8 +1,46 @@
+body {
+        display: grid;
+        grid-template-rows: 250px 1fr;
+        /* align-items: center; */
+        gap: 10px;
+        padding: 1rem;
+        background-color: #335C67;
+
+}
+
+#bookForm {
+    
+    
+    
+}
+
+.fieldSet {
+    display: grid;
+    gap: 8px;
+    border: none;
+    background-color: #540B0E;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+    
+}
+
+#bookForm fieldset input {
+    border-radius: 2px;
+    border: none;
+}
+
+#bookForm fieldset button {
+    border-radius: 2px;
+    border: none;
+}
+
 .bookCard {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 250px;
     width: 200px;
     background-color: #540B0E;
     color: #FFF3B0;
@@ -10,12 +48,30 @@
     padding: 20px;
     border-left: 10px solid #E09F3E;
     font-size: 30px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.container {
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    padding: 1rem;
+.formContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: row wrap;
+        gap: 10px;
+        padding: 1rem;
+        background-color: #335C67;
+    
 
+}
+
+.addBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #9E2A2B;
+    color: #FFF3B0;
+    border-radius: 50%;
+    border: none;
+    font-size: 40px;
+    padding: 12px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

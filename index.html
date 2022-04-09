@@ -6,22 +6,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400;1,500&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="style.css">
     <title>Library</title>
 </head>
 
 <body>
-    <form id='bookForm'>
-        <fieldset>
-            <input id="title" type="text" placeholder="Enter book title">
-            <input id="author" type="text" placeholder="Enter book author">
-            <input id="pages" type="text" placeholder="Enter number of pages">
-            <input id="read" type="text" placeholder="Have you read the book? Y/N">
-            <button type="button" id="submitBtn">Add book</button>
-        </fieldset>
-    </form>
-    <div class="container" id="container">
-        <!-- <div class="bookCard">The Hobbit</div> -->
+    <div class="formContainer" id="formContainer">
+        <button type="button" id="addBtn" class="addBtn"><span class="material-icons-outlined">add</span></button>
+        <form id='bookForm'>
+            <fieldset class="fieldSet">
+                <input id="title" type="text" placeholder="Enter book title">
+                <input id="author" type="text" placeholder="Enter book author">
+                <input id="pages" type="text" placeholder="Enter number of pages">
+                <input id="read" type="text" placeholder="Have you read the book? Y/N">
+                <button type="button" id="submitBtn">Add book</button>
+            </fieldset>
+        </form>
     </div>
+    <div id="bookContainer" class="bookContainer">
+
+    </div>
+
+
+
 
     <script src="scripts.js"></script>
 </body>
