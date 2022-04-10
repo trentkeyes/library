@@ -8,10 +8,6 @@ const bookForm = document.querySelector('#bookForm');
 const bookContainer = document.querySelector("#bookContainer");
 
 
-submitBtn.addEventListener('click', (e) => {
-    addBookToLibrary();
-});
-
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
         addBookToLibrary();
@@ -20,6 +16,7 @@ window.addEventListener('keydown', (e) => {
 
 addBtn.addEventListener('click', (e) => {
     showForm();
+    console.log('hello');
 });
 
 function Book(id, title, author, pages, read) {
@@ -36,13 +33,55 @@ function Book(id, title, author, pages, read) {
         } else {
             haveRead = "Not read";
         }
-        bookInfo = title + " by " + author + " " + pages + " pages " + haveRead;
+        bookInfo = "Title: " + title + "Author: " + author + "Pages: " + pages + "Read: " + haveRead;
         return bookInfo;
     }
 }
 
 function showForm() {
+    const bookForm = document.createElement('form');
+    bookForm.setAttribute("id", "bookForm");
+
+    const field = document.createElement('fieldset');
+    field.setAttribute('class', 'fieldSet');
+
+    const title = document.createElement('input');
+    title.setAttribute("id", "title");
+    title.setAttribute("type", "text");
+    title.setAttribute("placeholder", "Enter book title");
+
+    const author = document.createElement('input');
+    author.setAttribute("id", "author");
+    author.setAttribute("type", "text");
+    author.setAttribute("placeholder", "Enter book author");
+
+    const pages = document.createElement('input');
+    pages.setAttribute("id", "pages");
+    pages.setAttribute("type", "text");
+    pages.setAttribute("placeholder", "Enter number of pages");
+
+    const read = document.createElement('input');
+    read.setAttribute("id", "read");
+    read.setAttribute("type", "text");
+    read.setAttribute("placeholder", "Have you read the book?");
+
+    const submitBtn = document.createElement('button');
+    submitBtn.setAttribute("id", "submitBtn");
+    submitBtn.setAttribute("type", "button");
+    submitBtn.textContent = 'Add a book';
+
     formContainer.appendChild(bookForm);
+    bookForm.appendChild(field);
+    field.appendChild(title);
+    field.appendChild(author);
+    field.appendChild(pages);
+    field.appendChild(read);
+    field.appendChild(submitBtn);
+
+    submitBtn.addEventListener('click', (e) => {
+        addBookToLibrary();
+    });
+
 }
 
 function addBookToLibrary() {
@@ -59,8 +98,10 @@ function addBookToLibrary() {
     bookCard.setAttribute("class", "bookCard");
     bookContainer.appendChild(bookCard);
     bookCard.textContent = userBook.info();
-    bookForm.reset();
-    bookContainer.removeChild(bookForm);
+    // bookForm.reset();
+    const bookForm = document.querySelector('#bookForm');
+
+    formContainer.removeChild(bookForm);
 }
 
 
