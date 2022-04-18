@@ -7,6 +7,7 @@ const formContainer = document.querySelector('#formContainer');
 const bookForm = document.querySelector('#bookForm');
 const bookContainer = document.querySelector("#bookContainer");
 
+let bookFormEnable = false;
 
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
@@ -15,8 +16,10 @@ window.addEventListener('keydown', (e) => {
 });
 
 addBtn.addEventListener('click', (e) => {
-    showForm();
-    console.log('hello');
+    if (!bookFormEnable) {
+        showForm();
+    }
+
 });
 
 function Book(id, title, author, pages, read) {
@@ -25,8 +28,25 @@ function Book(id, title, author, pages, read) {
     this.author = author;
     this.pages = pages;
     this.read = read;
-    this.info = function () {
+    this.displayInfo = function () {
         let bookInfo = "";
+        const bookCard = document.createElement('div');
+        bookCard.setAttribute("class", "bookCard");
+        bookContainer.appendChild(bookCard);
+        const titleDisplay = document.createElement('p');
+        titleDisplay.textContent = `Title: ${title}`;
+        const authorDisplay = document.createElement('p');
+        authorDisplay.textContent = `Author: ${author}`;
+        const pagesDisplay = document.createElement('p');
+        pagesDisplay.textContent = `Pages: ${pages}`;
+        const readDisplay = document.createElement('p');
+        readDisplay.textContent = `Read: ${read}`;
+        bookCard.appendChild(titleDisplay);
+        bookCard.appendChild(authorDisplay);
+        bookCard.appendChild(pagesDisplay);
+        bookCard.appendChild(readDisplay);
+
+
         let haveRead;
         if (read) {
             haveRead = "Read";
@@ -34,11 +54,13 @@ function Book(id, title, author, pages, read) {
             haveRead = "Not read";
         }
         bookInfo = "Title: " + title + "Author: " + author + "Pages: " + pages + "Read: " + haveRead;
-        return bookInfo;
+        // return bookInfo;
     }
+
 }
 
 function showForm() {
+
     const bookForm = document.createElement('form');
     bookForm.setAttribute("id", "bookForm");
 
@@ -57,7 +79,7 @@ function showForm() {
 
     const pages = document.createElement('input');
     pages.setAttribute("id", "pages");
-    pages.setAttribute("type", "text");
+    pages.setAttribute("type", "tel");
     pages.setAttribute("placeholder", "Enter number of pages");
 
     const read = document.createElement('input');
@@ -82,6 +104,8 @@ function showForm() {
         addBookToLibrary();
     });
 
+    bookFormEnable = true;
+
 }
 
 function addBookToLibrary() {
@@ -94,14 +118,11 @@ function addBookToLibrary() {
     const userBook = new Book(id, title, author, pages, read);
     myLibrary.push(userBook);
     bookID++;
-    const bookCard = document.createElement('div');
-    bookCard.setAttribute("class", "bookCard");
-    bookContainer.appendChild(bookCard);
-    bookCard.textContent = userBook.info();
+    userBook.displayInfo();
     // bookForm.reset();
     const bookForm = document.querySelector('#bookForm');
-
     formContainer.removeChild(bookForm);
+    bookFormEnable = false;
 }
 
 
