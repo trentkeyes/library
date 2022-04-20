@@ -22,41 +22,56 @@ addBtn.addEventListener('click', (e) => {
 
 });
 
-function Book(id, title, author, pages, read) {
+function Book(id, title, author, pages, read, rating) {
     this.id = id;
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
+    this.rating = rating;
+
+    let haveRead;
+    if (read) {
+        haveRead = "Yes";
+    } else {
+        haveRead = "Not yet";
+    }
     this.displayInfo = function () {
-        let bookInfo = "";
         const bookCard = document.createElement('div');
         bookCard.setAttribute("class", "bookCard");
         bookContainer.appendChild(bookCard);
         const titleDisplay = document.createElement('p');
         titleDisplay.textContent = `Title: ${title}`;
+        bookCard.appendChild(titleDisplay);
         const authorDisplay = document.createElement('p');
         authorDisplay.textContent = `Author: ${author}`;
+        bookCard.appendChild(authorDisplay);
         const pagesDisplay = document.createElement('p');
         pagesDisplay.textContent = `Pages: ${pages}`;
+        bookCard.appendChild(pagesDisplay);
         const readDisplay = document.createElement('p');
         readDisplay.textContent = `Read: ${read}`;
-        bookCard.appendChild(titleDisplay);
-        bookCard.appendChild(authorDisplay);
-        bookCard.appendChild(pagesDisplay);
         bookCard.appendChild(readDisplay);
+        const ratingDisplay = document.createElement('p');
+        ratingDisplay.textContent = `Rating: ${5} stars`;
+        bookCard.appendChild(ratingDisplay);
+        const readButton = document.createElement('button');
+        readButton.setAttribute('class', 'deleteBtn');
+        readButton.textContent = 'Change read status';
+        bookCard.appendChild(readButton);
+        const buttonDisplay = document.createElement('button');
+        buttonDisplay.setAttribute('class', 'deleteBtn');
+        buttonDisplay.textContent = 'Delete book';
+        bookCard.appendChild(buttonDisplay);
+
+        buttonDisplay.addEventListener('click', () => {
+            deleteBook();
+        });
 
 
-        let haveRead;
-        if (read) {
-            haveRead = "Read";
-        } else {
-            haveRead = "Not read";
-        }
-        bookInfo = "Title: " + title + "Author: " + author + "Pages: " + pages + "Read: " + haveRead;
+        // bookInfo = "Title: " + title + "Author: " + author + "Pages: " + pages + "Read: " + haveRead;
         // return bookInfo;
     }
-
 }
 
 function showForm() {
@@ -125,7 +140,18 @@ function addBookToLibrary() {
     bookFormEnable = false;
 }
 
-
+function deleteBook() {
+    const inputsArr = Array.from(document.querySelector('#bookForm')[0]);
+    const id = inputsArr[0].value;
+    const userBook = new Book(id, title, author, pages, read);
+    myLibrary.push(userBook);
+    bookID++;
+    userBook.displayInfo();
+    // bookForm.reset();
+    const bookForm = document.querySelector('#bookForm');
+    formContainer.removeChild(bookForm);
+    bookFormEnable = false;
+}
 
 
 
