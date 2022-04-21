@@ -10,8 +10,10 @@ const bookContainer = document.querySelector("#bookContainer");
 let bookFormEnable = false;
 
 window.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        addBookToLibrary();
+    if (bookFormEnable) {
+        if (e.key === 'Enter') {
+            addBookToLibrary();
+        }
     }
 });
 
@@ -34,7 +36,7 @@ function Book(id, title, author, pages, read, rating) {
     if (read) {
         haveRead = "Yes";
     } else {
-        haveRead = "Not yet";
+        haveRead = "No";
     }
 
 
@@ -52,6 +54,7 @@ function Book(id, title, author, pages, read, rating) {
         pagesDisplay.textContent = `Pages: ${pages}`;
         bookCard.appendChild(pagesDisplay);
         const readDisplay = document.createElement('p');
+        readDisplay.setAttribute('id', 'readDisplay');
         readDisplay.textContent = `Read: ${read}`;
         bookCard.appendChild(readDisplay);
         const ratingDisplay = document.createElement('p');
@@ -60,6 +63,7 @@ function Book(id, title, author, pages, read, rating) {
         const readButton = document.createElement('button');
         readButton.setAttribute('class', 'deleteBtn');
         readButton.textContent = 'Change read status';
+        readButton.addEventListener('click', this.changeRead);
         bookCard.appendChild(readButton);
         const deleteButton = document.createElement('button');
         deleteButton.setAttribute('class', 'deleteBtn');
@@ -70,6 +74,17 @@ function Book(id, title, author, pages, read, rating) {
         // bookInfo = "Title: " + title + "Author: " + author + "Pages: " + pages + "Read: " + haveRead;
         // return bookInfo;
     }
+
+    this.changeRead = function () {
+        if (read === 'Yes') {
+            read = 'No';
+        } else {
+            read = 'Yes';
+        }
+        const readDisplay = document.querySelector('#readDisplay');
+        readDisplay.textContent = `Read: ${read}`;
+    }
+
     this.deleteBook = function () {
         const before = myLibrary.slice(0, id);
         const after = myLibrary.slice(id + 1);
@@ -101,10 +116,33 @@ function showForm() {
     pages.setAttribute("type", "tel");
     pages.setAttribute("placeholder", "Enter number of pages");
 
-    const read = document.createElement('input');
-    read.setAttribute("id", "read");
-    read.setAttribute("type", "text");
-    read.setAttribute("placeholder", "Have you read the book?");
+    const readQ = document.createElement('p');
+    readQ.textContent = "Have you read the book?";
+
+    const radio1Div = document.createElement('div');
+
+    const readRadio1 = document.createElement('input');
+    readRadio1.setAttribute("id", "readYes");
+    readRadio1.setAttribute("type", "radio");
+    readRadio1.setAttribute("name", "radioInput");
+    readRadio1.setAttribute("value", "Yes");
+    readRadio1.setAttribute("checked", "checked");
+
+    const readLabel1 = document.createElement('label');
+    readLabel1.setAttribute("for", "readYes");
+    readLabel1.textContent = 'Yes';
+
+    const radio2Div = document.createElement('div');
+
+    const readRadio2 = document.createElement('input');
+    readRadio2.setAttribute("id", "readNo");
+    readRadio2.setAttribute("type", "radio");
+    readRadio2.setAttribute("name", "radioInput");
+    readRadio2.setAttribute("value", "No");
+
+    const readLabel2 = document.createElement('label');
+    readLabel2.setAttribute("for", "readNo");
+    readLabel2.textContent = 'No';
 
     const submitBtn = document.createElement('button');
     submitBtn.setAttribute("id", "submitBtn");
@@ -116,7 +154,13 @@ function showForm() {
     field.appendChild(title);
     field.appendChild(author);
     field.appendChild(pages);
-    field.appendChild(read);
+    field.appendChild(readQ);
+    field.appendChild(radio1Div);
+    radio1Div.appendChild(readRadio1);
+    radio1Div.appendChild(readLabel1);
+    field.appendChild(radio2Div);
+    radio2Div.appendChild(readRadio2);
+    radio2Div.appendChild(readLabel2);
     field.appendChild(submitBtn);
 
     submitBtn.addEventListener('click', (e) => {
@@ -128,86 +172,27 @@ function showForm() {
 }
 
 function addBookToLibrary() {
-    const inputsArr = Array.from(document.querySelectorAll('#bookForm')[0]);
     const id = bookID;
-    const title = inputsArr[1].value;
-    const author = inputsArr[2].value;
-    const pages = inputsArr[3].value;
-    const read = inputsArr[4].value;
-    const userBook = new Book(id, title, author, pages, read);
+    const title = document.querySelector('#title').value;
+    const author = document.querySelector('#author').value;
+    const pages = document.querySelector('#pages').value;
+    const radioButtons = document.querySelectorAll('input[name=radioInput');
+
+    let readStatus;
+
+    for (const radioButton of radioButtons) {
+        if (radioButton.checked) {
+            readStatus = radioButton.value;
+            break;
+        }
+    }
+
+    console.log(readStatus);
+    const userBook = new Book(id, title, author, pages, readStatus);
     myLibrary.push(userBook);
     bookID++;
     userBook.displayInfo();
-    // bookForm.reset();
     const bookForm = document.querySelector('#bookForm');
     formContainer.removeChild(bookForm);
     bookFormEnable = false;
 }
-
-// function deleteBook() {
-//     const inputsArr = Array.from(document.querySelector('#bookForm')[0]);
-//     const id = inputsArr[0].value;
-//     const userBook = new Book(id, title, author, pages, read);
-//     myLibrary.push(userBook);
-//     bookID++;
-//     userBook.displayInfo();
-//     // bookForm.reset();
-//     const bookForm = document.querySelector('#bookForm');
-//     formContainer.removeChild(bookForm);
-//     bookFormEnable = false;
-// }
-
-
-
-
-
-// const hobbit = new Book('The Bible', 'God', 15405, true);
-// hobbit.info();
-
-// function addBookToLibrary(book) {
-//     let inputs = document.querySelector('#bookForm');
-//     let myBook = [];
-//     let text = "";
-//     for (let i = 0; i < inputs.length - 1; i++) {
-//         myBook.push(inputs.elements[i].value);
-//     }
-//     console.log(myBook);
-
-//     const userBook = new Book(...myBook);
-
-//     myLibrary.push(userBook);
-
-//     console.log(myLibrary);
-//     displayBook(userBook);
-//     bookCard
-//     //document.querySelector('#bookDisplay').textContent = bookInfo;
-// }
-
-
-
-// function userInput() {
-//     let str = document.getElementById("titleInput").value;
-// }
-
-// const title = document.querySelector('#title').value;
-// const author = document.querySelector('#author').value;
-// const pages = document.querySelector('#pages').value;
-// const read = document.querySelector('#read').value;
-
-// const inputs = document.querySelectorAll('#bookForm input')
-
-// let inputArr = Array.from(document.querySelectorAll('#bookForm input'));
-
-// // inputArr.forEach(element => 
-// //     console.log(`${element.id}: ${element.value}`)
-// //     );
-
-// const formData = document.querySelector('#bookForm');
-
-// formData.addEventListener("submit", function (event) {
-//     console.log(event.id);
-//     //myLibrary.push(`${element.id}: ${element.value}`);
-// });
-
-
-
