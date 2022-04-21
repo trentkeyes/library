@@ -1,9 +1,10 @@
 body {
         display: grid;
         grid-template-columns: 300px 1fr;
-        grid-template-rows: 160px 1fr;
+        grid-template-rows: 250px 1fr;
         align-items: center;
-        gap: 10px;
+        column-gap: 10px;
+        row-gap: 20px;
         padding: 1rem;
         background-color: #335C67;
         font-family: 'Montserrat', sans-serif;
@@ -19,6 +20,7 @@ p {
 .title-add {
     display: grid;
     grid-template-rows: 60px 60px;
+    align-self: start;
     justify-items: end;
     align-items: center;
     background-color: #540B0E;
@@ -69,11 +71,31 @@ p {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.formInput {
+    background-color: #E09F3E;
+    color: black;
+    border: #E09F3E
+}
 
-#bookForm {
+input[type=text], input[type=number], input[type=tel] {
+    border: 5px solid #E09F3E;
+    outline: none;
+}
+
+.formInput::placeholder {
+    color: black;
     
     
-    
+}
+
+.bookAdder {
+    height: 30px;
+    background-color: #E09F3E;
+    color: black;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .fieldSet {
@@ -122,7 +144,6 @@ p {
         background-color: #335C67;
         justify-self: start;
     
-
 }
 
 .bookContainer {
@@ -130,4 +151,11 @@ p {
     display: flex;
     flex-flow: row wrap;
     gap: 16px;
+}
+
+.spans {
+    color: #FFF3B0;
+    font-weight: bold;
+    font-size: 14px;
+
 }

@@ -32,47 +32,71 @@ function Book(id, title, author, pages, read, rating) {
     this.read = read;
     this.rating = rating;
 
-    let haveRead;
-    if (read) {
-        haveRead = "Yes";
-    } else {
-        haveRead = "No";
-    }
-
-
     this.displayInfo = function () {
         const bookCard = document.createElement('div');
         bookCard.setAttribute("class", "bookCard");
         bookContainer.appendChild(bookCard);
+
         const titleDisplay = document.createElement('p');
-        titleDisplay.textContent = `Title: ${title}`;
+        const userTitle = document.createElement('span');
+        userTitle.setAttribute('class', 'spans');
+        titleDisplay.textContent = `Title: `;
         bookCard.appendChild(titleDisplay);
+        titleDisplay.appendChild(userTitle);
+        userTitle.textContent = `${title}`;
+
         const authorDisplay = document.createElement('p');
-        authorDisplay.textContent = `Author: ${author}`;
+        authorDisplay.textContent = `Author: `;
         bookCard.appendChild(authorDisplay);
+        const userAuthor = document.createElement('span');
+        authorDisplay.appendChild(userAuthor);
+        userAuthor.setAttribute('class', 'spans');
+        userAuthor.textContent = `${author}`;
+
         const pagesDisplay = document.createElement('p');
-        pagesDisplay.textContent = `Pages: ${pages}`;
+        pagesDisplay.textContent = `Pages: `;
         bookCard.appendChild(pagesDisplay);
+        const userPages = document.createElement('span');
+        pagesDisplay.appendChild(userPages);
+        userPages.setAttribute('class', 'spans');
+        userPages.textContent = `${pages}`;
+
         const readDisplay = document.createElement('p');
         readDisplay.setAttribute('id', 'readDisplay');
-        readDisplay.textContent = `Read: ${read}`;
+        readDisplay.textContent = `Read: `;
         bookCard.appendChild(readDisplay);
+        const userRead = document.createElement('span');
+        readDisplay.appendChild(userRead);
+        userRead.setAttribute('class', 'spans');
+        userRead.textContent = `${read}`;
+
         const ratingDisplay = document.createElement('p');
-        ratingDisplay.textContent = `Rating: ${5} stars`;
+        ratingDisplay.textContent = `Rating: `;
         bookCard.appendChild(ratingDisplay);
+        const userRating = document.createElement('span');
+        ratingDisplay.appendChild(userRating);
+        userRating.setAttribute('class', 'spans');
+        userRating.textContent = `${rating} / 10`;
+
         const readButton = document.createElement('button');
         readButton.setAttribute('class', 'deleteBtn');
         readButton.textContent = 'Change read status';
         readButton.addEventListener('click', this.changeRead);
+
         bookCard.appendChild(readButton);
         const deleteButton = document.createElement('button');
         deleteButton.setAttribute('class', 'deleteBtn');
         deleteButton.textContent = 'Delete book';
         bookCard.appendChild(deleteButton);
         deleteButton.addEventListener('click', this.deleteBook);
+    }
 
-        // bookInfo = "Title: " + title + "Author: " + author + "Pages: " + pages + "Read: " + haveRead;
-        // return bookInfo;
+
+    this.deleteBook = function () {
+        const before = myLibrary.slice(0, id);
+        const after = myLibrary.slice(id + 1);
+        myLibrary = before.concat(after);
+        bookContainer.removeChild(this.parentElement);
     }
 
     this.changeRead = function () {
@@ -81,20 +105,24 @@ function Book(id, title, author, pages, read, rating) {
         } else {
             read = 'Yes';
         }
-        const readDisplay = document.querySelector('#readDisplay');
-        readDisplay.textContent = `Read: ${read}`;
-    }
+        const status = read;
+        myLibrary[id].read = status;
 
-    this.deleteBook = function () {
-        const before = myLibrary.slice(0, id);
-        const after = myLibrary.slice(id + 1);
-        myLibrary = before.concat(after);
-        bookContainer.removeChild(this.parentElement);
+        const readDisplay = this.parentElement.querySelector(':nth-Child(4)');
+        readDisplay.textContent = `Read: `;
+
+        const userRead = document.createElement('span');
+        readDisplay.appendChild(userRead);
+        userRead.setAttribute('class', 'spans');
+        userRead.textContent = `${read}`;
+        console.log(myLibrary);
     }
 }
 
-function showForm() {
 
+
+
+function showForm() {
     const bookForm = document.createElement('form');
     bookForm.setAttribute("id", "bookForm");
 
@@ -102,22 +130,36 @@ function showForm() {
     field.setAttribute('class', 'fieldSet');
 
     const title = document.createElement('input');
+    title.setAttribute('class', 'formInput');
     title.setAttribute("id", "title");
     title.setAttribute("type", "text");
-    title.setAttribute("placeholder", "Enter book title");
+    title.setAttribute("placeholder", "Book title");
 
     const author = document.createElement('input');
+    author.setAttribute('class', 'formInput');
     author.setAttribute("id", "author");
     author.setAttribute("type", "text");
-    author.setAttribute("placeholder", "Enter book author");
+    author.setAttribute("placeholder", "Book author");
 
     const pages = document.createElement('input');
+    pages.setAttribute('class', 'formInput');
     pages.setAttribute("id", "pages");
     pages.setAttribute("type", "tel");
-    pages.setAttribute("placeholder", "Enter number of pages");
+    pages.setAttribute("placeholder", "Number of pages");
+
+    const rating = document.createElement('input');
+    rating.setAttribute('class', 'formInput');
+    rating.setAttribute("id", "rating");
+    rating.setAttribute("type", "number");
+    rating.setAttribute("placeholder", "Rating out of 10");
+    rating.setAttribute('min', '0');
+    rating.setAttribute('max', '10');
 
     const readQ = document.createElement('p');
     readQ.textContent = "Have you read the book?";
+
+    const readQDiv = document.createElement('p');
+    readQDiv.setAttribute('class', 'readQDiv');
 
     const radio1Div = document.createElement('div');
 
@@ -145,6 +187,7 @@ function showForm() {
     readLabel2.textContent = 'No';
 
     const submitBtn = document.createElement('button');
+    submitBtn.setAttribute('class', 'bookAdder')
     submitBtn.setAttribute("id", "submitBtn");
     submitBtn.setAttribute("type", "button");
     submitBtn.textContent = 'Add a book';
@@ -154,11 +197,13 @@ function showForm() {
     field.appendChild(title);
     field.appendChild(author);
     field.appendChild(pages);
+    field.appendChild(rating);
     field.appendChild(readQ);
-    field.appendChild(radio1Div);
+    field.appendChild(readQDiv);
+    readQDiv.appendChild(radio1Div);
+    readQDiv.appendChild(radio2Div);
     radio1Div.appendChild(readRadio1);
     radio1Div.appendChild(readLabel1);
-    field.appendChild(radio2Div);
     radio2Div.appendChild(readRadio2);
     radio2Div.appendChild(readLabel2);
     field.appendChild(submitBtn);
@@ -176,8 +221,8 @@ function addBookToLibrary() {
     const title = document.querySelector('#title').value;
     const author = document.querySelector('#author').value;
     const pages = document.querySelector('#pages').value;
-    const radioButtons = document.querySelectorAll('input[name=radioInput');
-
+    const radioButtons = document.querySelectorAll('input[name=radioInput]');
+    const rating = document.querySelector('#rating').value;
     let readStatus;
 
     for (const radioButton of radioButtons) {
@@ -187,8 +232,7 @@ function addBookToLibrary() {
         }
     }
 
-    console.log(readStatus);
-    const userBook = new Book(id, title, author, pages, readStatus);
+    const userBook = new Book(id, title, author, pages, readStatus, rating);
     myLibrary.push(userBook);
     bookID++;
     userBook.displayInfo();
