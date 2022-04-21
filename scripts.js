@@ -36,6 +36,8 @@ function Book(id, title, author, pages, read, rating) {
     } else {
         haveRead = "Not yet";
     }
+
+
     this.displayInfo = function () {
         const bookCard = document.createElement('div');
         bookCard.setAttribute("class", "bookCard");
@@ -59,18 +61,20 @@ function Book(id, title, author, pages, read, rating) {
         readButton.setAttribute('class', 'deleteBtn');
         readButton.textContent = 'Change read status';
         bookCard.appendChild(readButton);
-        const buttonDisplay = document.createElement('button');
-        buttonDisplay.setAttribute('class', 'deleteBtn');
-        buttonDisplay.textContent = 'Delete book';
-        bookCard.appendChild(buttonDisplay);
-
-        buttonDisplay.addEventListener('click', () => {
-            deleteBook();
-        });
-
+        const deleteButton = document.createElement('button');
+        deleteButton.setAttribute('class', 'deleteBtn');
+        deleteButton.textContent = 'Delete book';
+        bookCard.appendChild(deleteButton);
+        deleteButton.addEventListener('click', this.deleteBook);
 
         // bookInfo = "Title: " + title + "Author: " + author + "Pages: " + pages + "Read: " + haveRead;
         // return bookInfo;
+    }
+    this.deleteBook = function () {
+        const before = myLibrary.slice(0, id);
+        const after = myLibrary.slice(id + 1);
+        myLibrary = before.concat(after);
+        bookContainer.removeChild(this.parentElement);
     }
 }
 
@@ -140,25 +144,18 @@ function addBookToLibrary() {
     bookFormEnable = false;
 }
 
-function deleteBook() {
-    const inputsArr = Array.from(document.querySelector('#bookForm')[0]);
-    const id = inputsArr[0].value;
-    const userBook = new Book(id, title, author, pages, read);
-    myLibrary.push(userBook);
-    bookID++;
-    userBook.displayInfo();
-    // bookForm.reset();
-    const bookForm = document.querySelector('#bookForm');
-    formContainer.removeChild(bookForm);
-    bookFormEnable = false;
-}
-
-
-
-
-function removeBookFromLibrary() {
-    //  e.parentElement.removeChild(e);
-}
+// function deleteBook() {
+//     const inputsArr = Array.from(document.querySelector('#bookForm')[0]);
+//     const id = inputsArr[0].value;
+//     const userBook = new Book(id, title, author, pages, read);
+//     myLibrary.push(userBook);
+//     bookID++;
+//     userBook.displayInfo();
+//     // bookForm.reset();
+//     const bookForm = document.querySelector('#bookForm');
+//     formContainer.removeChild(bookForm);
+//     bookFormEnable = false;
+// }
 
 
 
