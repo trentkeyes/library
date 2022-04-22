@@ -115,7 +115,6 @@ function Book(id, title, author, pages, read, rating) {
         readDisplay.appendChild(userRead);
         userRead.setAttribute('class', 'spans');
         userRead.textContent = `${read}`;
-        console.log(myLibrary);
     }
 }
 
@@ -235,8 +234,25 @@ function addBookToLibrary() {
     const userBook = new Book(id, title, author, pages, readStatus, rating);
     myLibrary.push(userBook);
     bookID++;
-    userBook.displayInfo();
+    //My initial design was to add each book to the DOM as the book object is added to the myLibary
+    //to the myLibary array, but I'm going to clear them each time and add them by looping through the library
+    //to satisfy the instructions on the Odin project.
+
+    //clear bookContainer
+    const bookContainer = document.querySelector('#bookContainer');
+    while (bookContainer.firstChild) {
+        bookContainer.removeChild(bookContainer.lastChild);
+    }
+
+    //add all books in myLibrary
+    for (const book of myLibrary) {
+        book.displayInfo();
+    }
+
+
+    // userBook.displayInfo();
     const bookForm = document.querySelector('#bookForm');
     formContainer.removeChild(bookForm);
     bookFormEnable = false;
 }
+
