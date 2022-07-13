@@ -128,18 +128,22 @@ function showForm() {
   title.setAttribute("id", "title");
   title.setAttribute("type", "text");
   title.setAttribute("placeholder", "Book title");
+  title.required = true;
 
   const author = document.createElement("input");
   author.setAttribute("class", "formInput");
   author.setAttribute("id", "author");
   author.setAttribute("type", "text");
   author.setAttribute("placeholder", "Book author");
+  author.required = true;
 
   const pages = document.createElement("input");
   pages.setAttribute("class", "formInput");
   pages.setAttribute("id", "pages");
   pages.setAttribute("type", "tel");
   pages.setAttribute("placeholder", "Number of pages");
+  pages.setAttribute("min", "1");
+  pages.required = true;
 
   const rating = document.createElement("input");
   rating.setAttribute("class", "formInput");
@@ -148,6 +152,7 @@ function showForm() {
   rating.setAttribute("placeholder", "Rating out of 10");
   rating.setAttribute("min", "0");
   rating.setAttribute("max", "10");
+  rating.required = true;
 
   const readQ = document.createElement("p");
   readQ.textContent = "Have you read the book?";
@@ -185,6 +190,7 @@ function showForm() {
   submitBtn.setAttribute("id", "submitBtn");
   submitBtn.setAttribute("type", "button");
   submitBtn.textContent = "Add a book";
+  submitBtn.setAttribute("onclick", "validateInput()");
 
   formContainer.appendChild(bookForm);
   bookForm.appendChild(field);
@@ -247,4 +253,12 @@ function addBookToLibrary() {
   const bookForm = document.querySelector("#bookForm");
   formContainer.removeChild(bookForm);
   bookFormEnable = false;
+}
+
+function validateInput() {
+  const titleInput = document.getElementById('title');
+  const authorInput = document.getElementById('author');
+  const pagesInput = document.getElementById('pages');
+  const ratingInput = document.getElementById('rating');
+
 }
