@@ -190,7 +190,9 @@ function showForm() {
   submitBtn.setAttribute("id", "submitBtn");
   submitBtn.setAttribute("type", "button");
   submitBtn.textContent = "Add a book";
-  submitBtn.setAttribute("onclick", "validateInput()");
+
+  const errorMessage = document.createElement("p");
+  errorMessage.setAttribute("id", "errorMessage");
 
   formContainer.appendChild(bookForm);
   bookForm.appendChild(field);
@@ -207,6 +209,7 @@ function showForm() {
   radio2Div.appendChild(readRadio2);
   radio2Div.appendChild(readLabel2);
   field.appendChild(submitBtn);
+  field.appendChild(errorMessage);
 
   submitBtn.addEventListener("click", (e) => {
     addBookToLibrary();
@@ -216,49 +219,62 @@ function showForm() {
 }
 
 function addBookToLibrary() {
-  const id = bookID;
-  const title = document.querySelector("#title").value;
-  const author = document.querySelector("#author").value;
-  const pages = document.querySelector("#pages").value;
-  const radioButtons = document.querySelectorAll("input[name=radioInput]");
-  const rating = document.querySelector("#rating").value;
-  let readStatus;
+  if (validateInput()) {
+    const id = bookID;
+    const title = document.querySelector("#title").value;
+    const author = document.querySelector("#author").value;
+    const pages = document.querySelector("#pages").value;
+    const radioButtons = document.querySelectorAll("input[name=radioInput]");
+    const rating = document.querySelector("#rating").value;
+    let readStatus;
 
-  for (const radioButton of radioButtons) {
-    if (radioButton.checked) {
-      readStatus = radioButton.value;
-      break;
+    for (const radioButton of radioButtons) {
+      if (radioButton.checked) {
+        readStatus = radioButton.value;
+        break;
+      }
     }
+
+    const userBook = new Book(id, title, author, pages, readStatus, rating);
+    myLibrary.push(userBook);
+    bookID++;
+    //My initial design was to add each book to the DOM as the book object is added to the myLibary
+    //to the myLibary array, but I'm going to clear them each time and add them by looping through the library
+    //to satisfy the instructions on the Odin project.
+
+    //clear bookContainer
+    const bookContainer = document.querySelector("#bookContainer");
+    while (bookContainer.firstChild) {
+      bookContainer.removeChild(bookContainer.lastChild);
+    }
+
+    //add all books in myLibrary
+    for (const book of myLibrary) {
+      book.displayInfo();
+    }
+
+    // userBook.displayInfo();
+    const bookForm = document.querySelector("#bookForm");
+    formContainer.removeChild(bookForm);
+    bookFormEnable = false;
   }
-
-  const userBook = new Book(id, title, author, pages, readStatus, rating);
-  myLibrary.push(userBook);
-  bookID++;
-  //My initial design was to add each book to the DOM as the book object is added to the myLibary
-  //to the myLibary array, but I'm going to clear them each time and add them by looping through the library
-  //to satisfy the instructions on the Odin project.
-
-  //clear bookContainer
-  const bookContainer = document.querySelector("#bookContainer");
-  while (bookContainer.firstChild) {
-    bookContainer.removeChild(bookContainer.lastChild);
-  }
-
-  //add all books in myLibrary
-  for (const book of myLibrary) {
-    book.displayInfo();
-  }
-
-  // userBook.displayInfo();
-  const bookForm = document.querySelector("#bookForm");
-  formContainer.removeChild(bookForm);
-  bookFormEnable = false;
 }
 
 function validateInput() {
-  const titleInput = document.getElementById('title');
-  const authorInput = document.getElementById('author');
-  const pagesInput = document.getElementById('pages');
-  const ratingInput = document.getElementById('rating');
+  const titleInput = document.getElementById("title");
+  const authorInput = document.getElementById("author");
+  const pagesInput = document.getElementById("pages");
+  const ratingInput = document.getElementById("rating");
+  const errorMessage = document.getElementById("errorMessage");
 
+  if (
+    !titleInput.checkValidity() ||
+    !authorInput.checkValidity() ||
+    !pagesInput.checkValidity() ||
+    !ratingInput.checkValidity()
+  ) {
+    errorMessage.textContent = "Please fill out the form completely.";
+  } else {
+    return true;
+  }
 }
